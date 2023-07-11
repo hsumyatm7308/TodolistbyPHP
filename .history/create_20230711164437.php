@@ -1,0 +1,127 @@
+<?php
+// session_start();
+ini_set('display_errors', 1);
+
+require_once("database.php");
+require_once("update.php");
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    global $conn;
+
+    $getdata = $_POST['textbox'];
+
+    if (isset($_POST['submit'])) {
+        try {
+            $stmt = $conn->prepare("INSERT INTO todolist (task) VALUES (:task)");
+
+            $task = $getdata;
+
+            if (empty($task)) {
+                echo "";
+            } else {
+                $stmt->bindParam(':task', $task);
+
+
+
+
+                $stmt->execute();
+            }
+
+
+        } catch (Exception $e) {
+            echo "Error Found: " . $e->getMessage();
+        }
+    }
+
+
+    if (isset($_POST['update'])) {
+        if (isset($_POST['edit-task'])) {
+            $editId = $_POST['edit-task'];
+
+            $task = $_POST['textbox'];
+
+            $stmt = $conn->prepare("UPDATE todolist SET task = :task WHERE id = :id");
+            $stmt->bindParam(":task",$task);
+            $stmt->bindParam(":id",$editId);
+            $stmt->execute();
+            echo $editId;
+        }
+        // Rest of your code
+    }
+    
+
+}
+
+
+
+
+
+
+?>
+
+
+
+
+<!-- to do form  -->
+<form action="" method="post" enctype="multipart/form-data" id="todoForm">
+    <div class="w-full h-auto flex justify-center items-center p-1">
+        <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center rounded-3xl">
+            <input type="text" name="textbox" class="w-[85%] bg-stone-200 rounded-tl-3xl rounded-bl-3xl p-3 focus:outline-none" placeholder="Text item">
+
+            <button type="submit" name="submit" id="submitBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mr-2 text-stone-500 hover:text-stone-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <hr class="mt-3">
+</form>
+
+<script>
+    const editbtn = document.getElementsByClassName('editbtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const todoForm = document.getElementById('todoForm');
+
+    for (let i = 0; i < editbtn.length; i++) {
+        editbtn[i].addEventListener('click', function (e) {
+            const editId = editbtn[i].value;
+            const taskInput = document.getElementsByName('textbox')[0];
+            
+            submitBtn.setAttribute('name', 'update');
+            submitBtn.innerHTML = 'Update';
+
+            // Set the task input value based on the current task
+            taskInput.value = editbtn[i].previousElementSibling.textContent;
+
+            // Add a hidden input field to store the task ID
+            const taskIdInput = document.createElement('input');
+            taskIdInput.setAttribute('type', 'hidden');
+            taskIdInput.setAttribute('name', 'edit-id');
+            taskIdInput.setAttribute('value', editId);
+            todoForm.appendChild(taskIdInput);
+
+            // Prevent the form submission
+            e.preventDefault();
+        });
+    }
+
+    // Add an event listener for form submission
+    todoForm.addEventListener('submit', function(e) {
+        if (submitBtn.getAttribute('name') === 'update') {
+            // Handle update logic here
+
+            // Remove the hidden input field
+            const taskIdInput = document.getElementsByName('edit-id')[0];
+            taskIdInput.parentNode.removeChild(taskIdInput);
+
+            // Reset the button label and form behavior
+            submitBtn.setAttribute('name', 'submit');
+            submitBtn.innerHTML = 'Submit';
+        }
+    });
+</script>
+
