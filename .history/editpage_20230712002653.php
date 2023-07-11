@@ -41,7 +41,7 @@
 
 
 
-            <form action="update.php?id=<?php echo $_GET['id']; ?>"method="post" enctype="multipart/form-data" id="">
+            <form action="" method="post" enctype="multipart/form-data" id="">
 
                 <div class="w-full h-auto flex justify-center items-center p-1">
                     <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center rounded-3xl">

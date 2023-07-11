@@ -41,11 +41,11 @@
 
 
 
-            <form action="update.php?id=<?php echo $_GET['id']; ?>"method="post" enctype="multipart/form-data" id="">
+            <form action="" method="post" enctype="multipart/form-data" id="">
 
                 <div class="w-full h-auto flex justify-center items-center p-1">
                     <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center rounded-3xl">
-                        <input type="text" name="updattask"
+                        <input type="text" name="updat-task"
                             class="w-[85%] bg-stone-200 rounded-tl-3xl rounded-bl-3xl p-3 focus:outline-none"
                             placeholder="Text item">
 
@@ -69,7 +69,6 @@
                 <?php
 
                 require_once("edittodo.php");
-                require_once("update.php");
 
                 ?>
 
