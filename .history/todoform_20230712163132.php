@@ -5,27 +5,25 @@ require_once("create.php");
 
 try {
     $stmt = $conn->prepare("SELECT id, task FROM todolist");
+
+
+    $stmt->execute();
     $stmt->execute();
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Found Error: " . $e->getMessage();
 }
 
 if (isset($_GET['id'])) {
-    $completedTaskId = $_GET['id'];
+    $comid = $_GET['id'];
     try {
-        // Mark the task as complete in the database
-        $completeStmt = $conn->prepare("UPDATE todolist SET complete = 1 WHERE id = :completedTaskId");
-        $completeStmt->bindParam(":completedTaskId", $completedTaskId);
-        $completeStmt->execute();
+        $stmt = $conn->prepare("SELECT * FROM todolist WHERE id NOT IN (207, 208)");
 
-        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
-        
         $stmt->execute();
+
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo "Found Error: " . $e->getMessage();
     }
 }
-
 
 
 ?>
@@ -42,6 +40,7 @@ if (isset($_GET['id'])) {
                     <a href="index.php?id=<?php echo $row['id']; ?>" name="complete-check">
                         <i class="fa-regular fa-circle-check"></i>
                     </a>
+
                 </form>
                 <span class="ml-1">
                     <?php echo $row['task'] ?>

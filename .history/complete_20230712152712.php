@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
         $insertStmt->bindParam(":todoid", $comid);
         $insertStmt->execute();
 
-     
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }

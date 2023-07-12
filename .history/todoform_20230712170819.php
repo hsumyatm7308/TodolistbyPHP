@@ -18,8 +18,7 @@ if (isset($_GET['id'])) {
         $completeStmt->bindParam(":completedTaskId", $completedTaskId);
         $completeStmt->execute();
 
-        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
-        
+        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE complete <> 1");
         $stmt->execute();
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();

@@ -18,7 +18,9 @@ if (isset($_GET['id'])) {
         $insertStmt->bindParam(":todoid", $comid);
         $insertStmt->execute();
 
-     
+        $delestmt = $conn->prepare("DELETE FROM todolist WHERE id = :delid");
+
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }

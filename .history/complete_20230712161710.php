@@ -18,7 +18,16 @@ if (isset($_GET['id'])) {
         $insertStmt->bindParam(":todoid", $comid);
         $insertStmt->execute();
 
-     
+        $todonull = null;
+        $todoid = null;
+        // $delestmt = $conn->prepare("DELETE FROM todolist WHERE id = :nullid");
+
+        $delestmt = $conn->prepare("UPDATE todolist SET task = :task, id = :id  WHERE id = :nullid");
+        $delestmt->bindParam(":task",$todonull);
+        $delestmt->bindParam(":nullid",$comid);
+        $delestmt->execute();
+
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }

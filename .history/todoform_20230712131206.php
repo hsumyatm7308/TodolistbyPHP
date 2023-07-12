@@ -7,27 +7,8 @@ try {
     $stmt = $conn->prepare("SELECT id, task FROM todolist");
     $stmt->execute();
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Found Error: " . $e->getMessage();
 }
-
-if (isset($_GET['id'])) {
-    $completedTaskId = $_GET['id'];
-    try {
-        // Mark the task as complete in the database
-        $completeStmt = $conn->prepare("UPDATE todolist SET complete = 1 WHERE id = :completedTaskId");
-        $completeStmt->bindParam(":completedTaskId", $completedTaskId);
-        $completeStmt->execute();
-
-        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
-        
-        $stmt->execute();
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
-    }
-}
-
-
-
 ?>
 
 <!-- update to do  -->
@@ -38,8 +19,8 @@ if (isset($_GET['id'])) {
     <div name="taskitems" class="w-full h-auto flex justify-center items-center p-1">
         <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center p-3">
             <span class="flex justify-center items-center">
-                <form action="" method="post">
-                    <a href="index.php?id=<?php echo $row['id']; ?>" name="complete-check">
+                <form action="">
+                    <a href="complete.php?id=<?php echo $row['id']; ?>" name="complete-check">
                         <i class="fa-regular fa-circle-check"></i>
                     </a>
                 </form>

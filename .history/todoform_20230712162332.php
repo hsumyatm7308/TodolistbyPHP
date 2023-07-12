@@ -7,27 +7,43 @@ try {
     $stmt = $conn->prepare("SELECT id, task FROM todolist");
     $stmt->execute();
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Found Error: " . $e->getMessage();
 }
 
-if (isset($_GET['id'])) {
-    $completedTaskId = $_GET['id'];
-    try {
-        // Mark the task as complete in the database
-        $completeStmt = $conn->prepare("UPDATE todolist SET complete = 1 WHERE id = :completedTaskId");
-        $completeStmt->bindParam(":completedTaskId", $completedTaskId);
-        $completeStmt->execute();
 
-        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
-        
+
+if (isset($_GET['id'])) {
+    $comid = $_GET['id'];
+
+    try {
+        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id = :id");
+        $stmt->bindParam(":id", $comid);
         $stmt->execute();
+
+        $completedTask = $stmt->fetch();
+
+        // Insert completed task into completed_tasks table
+        $insertStmt = $conn->prepare("INSERT INTO completed_tasks (comtask,todolist_id) VALUES (:task,:todoid)");
+        $insertStmt->bindParam(":task", $completedTask['task']);
+        $insertStmt->bindParam(":todoid", $comid);
+        $insertStmt->execute();
+
+        $todonull = null;
+        $todoid = null;
+        // $delestmt = $conn->prepare("DELETE FROM todolist WHERE id = :nullid");
+
+        // $delestmt = $conn->prepare("UPDATE todolist SET task = :task, id = :id  WHERE id = :nullid");
+        $delestmt = $conn->prepare("SELECT * FROM talName WHERE id NOT IN (1, 3)");
+        $delestmt->bindParam(":task",$todonull);
+        $delestmt->bindParam(":id",$todoid);
+        $delestmt->bindParam(":nullid",$comid);
+        $delestmt->execute();
+
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-
-
-
 ?>
 
 <!-- update to do  -->
@@ -42,6 +58,7 @@ if (isset($_GET['id'])) {
                     <a href="index.php?id=<?php echo $row['id']; ?>" name="complete-check">
                         <i class="fa-regular fa-circle-check"></i>
                     </a>
+
                 </form>
                 <span class="ml-1">
                     <?php echo $row['task'] ?>

@@ -18,7 +18,23 @@ if (isset($_GET['id'])) {
         $insertStmt->bindParam(":todoid", $comid);
         $insertStmt->execute();
 
-     
+        // $todonull = null;
+        // $todoid = null;
+        // $delestmt = $conn->prepare("DELETE FROM todolist WHERE id = :nullid");
+
+        // $delestmt = $conn->prepare("UPDATE todolist SET task = :task, id = :id  WHERE id = :nullid");
+        // $delestmt = $conn->prepare("SELECT * FROM talName WHERE id NOT IN (1, 3)");
+        // $delestmt->bindParam(":task",$todonull);
+        // $delestmt->bindParam(":id",$todoid);
+        // $delestmt->bindParam(":nullid",$comid);
+        // $delestmt->execute();
+
+
+        $delestmt = $conn->prepare("SELECT * FROM todolist WHERE id NOT IN (207, 208)");
+      
+        $delestmt->execute();
+
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }

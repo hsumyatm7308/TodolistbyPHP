@@ -39,35 +39,40 @@
             </div>
 
 
-         
 
 
-           
+            <form action="update.php?id=<?php echo $_GET['id']; ?>"method="post" enctype="multipart/form-data" id="">
+
+                <div class="w-full h-auto flex justify-center items-center p-1">
+                    <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center rounded-3xl">
+                        <input type="text" name="updattask"
+                            class="w-[85%] bg-stone-200 rounded-tl-3xl rounded-bl-3xl p-3 focus:outline-none"
+                            placeholder="Text item">
 
 
-            <?php
+                        <button type="submit" name="update" id="submitBtn">
+                             <span class="text-sm">Update</span>
+                        </button>
 
-            require_once("todoform.php");
+                    </div>
+                </div>
+                <hr class="mt-3">
 
 
-           
-            ?>
+
+            </form>
+
+
+
 
             <div class="w-full h-[500px] overflow-y-scroll scrollbar-hide">
-
                 <?php
 
-                require_once("deletetodo.php");
-
-
-
-                // include("edittodo.php");
-                
-                require_once("displaycomplete.php");
- 
-                
+                require_once("edittodo.php");
+                require_once("update.php");
 
                 ?>
+
             </div>
 
 

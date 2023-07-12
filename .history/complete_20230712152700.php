@@ -15,10 +15,10 @@ if (isset($_GET['id'])) {
         // Insert completed task into completed_tasks table
         $insertStmt = $conn->prepare("INSERT INTO completed_tasks (comtask,todolist_id) VALUES (:task,:todoid)");
         $insertStmt->bindParam(":task", $completedTask['task']);
-        $insertStmt->bindParam(":todoid", $comid);
+        $insertStmt->bindParam(":todoid", $completedTask['todolist_id']);
         $insertStmt->execute();
 
-     
+        echo "Task completed and inserted into completed_tasks table.";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }

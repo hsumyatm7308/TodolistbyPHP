@@ -3,13 +3,6 @@ ini_set('display_errors', 1);
 require_once("database.php");
 require_once("create.php");
 
-try {
-    $stmt = $conn->prepare("SELECT id, task FROM todolist");
-    $stmt->execute();
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-}
-
 if (isset($_GET['id'])) {
     $completedTaskId = $_GET['id'];
     try {
@@ -17,17 +10,17 @@ if (isset($_GET['id'])) {
         $completeStmt = $conn->prepare("UPDATE todolist SET complete = 1 WHERE id = :completedTaskId");
         $completeStmt->bindParam(":completedTaskId", $completedTaskId);
         $completeStmt->execute();
-
-        $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
-        
-        $stmt->execute();
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-
-
+try {
+    $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE completed = 0");
+    $stmt->execute();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 ?>
 
 <!-- update to do  -->
