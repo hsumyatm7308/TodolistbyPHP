@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 
 if (isset($_GET['id'])) {
@@ -25,6 +25,23 @@ if (isset($_GET['id'])) {
 }
 
 
+if (isset($_POST['complete-trash'])) {
+    $delid = $_POST['complete-trash'];
+
+    try {
+        $stmt = $conn->prepare("DELETE ct FROM completed_tasks ct
+                                INNER JOIN todolist tl ON ct.todolist_id = tl.id
+                                WHERE ct.id = :id");
+        $stmt->bindParam(":id", $delid);
+        $stmt->execute();
+
+        // Redirect back to the desired page after deletion
+        header("Location: index.php");
+        exit();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
 
 ?>
 

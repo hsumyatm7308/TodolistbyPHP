@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 require_once("complete.php");
 
@@ -10,10 +10,6 @@ try {
 } catch (Exception $e) {
     echo "Found Error: " . $e->getMessage();
 }
-
-
-
-
 ?>
 
 

@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 require_once("create.php");
 
@@ -27,10 +27,28 @@ if (isset($_GET['id'])) {
 }
 
 
-if (isset($_POST['complete-trash'])) {
-    $delid = $_POST['complete-trash'];
 
-    echo $delid."delid";
+if (isset($_POST['delete-task'])) {
+    $deleteTaskID = $_POST['delete-task'];
+
+    try {
+        $stmt = $conn->prepare("DELETE FROM todolist WHERE id = :delid");
+        $stmt->bindParam(":delid", $deleteTaskID);
+        $stmt->execute();
+
+
+        $comstmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT todolist_id FROM completed_tasks)");
+        $comstmt->execute();
+
+
+        ob_end_clean();
+
+        header("Location: index.php");
+        exit();
+
+    } catch (Exception $e) {
+        echo "Error found: " . $e->getMessage();
+    }
 }
 
 

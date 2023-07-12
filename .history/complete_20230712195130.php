@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 
 if (isset($_GET['id'])) {
@@ -25,6 +25,15 @@ if (isset($_GET['id'])) {
 }
 
 
+if (isset($_POST['complete-trash'])) {
+    $delid = $_POST['complete-trash'];
+
+    try {
+       
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
 
 ?>
 

@@ -15,8 +15,6 @@ if (isset($_POST['delete-task'])) {
         $stmt->execute();
 
 
-        $comstmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT todolist_id FROM completed_tasks)");
-        $comstmt->execute();
 
 
         ob_end_clean();
@@ -29,17 +27,6 @@ if (isset($_POST['delete-task'])) {
     }
 }
 
-
-// if (isset($_GET['id'])) {
-//     $comid = $_GET['id'];
-
-//     try {
-    
-     
-//     } catch (Exception $e) {
-//         echo "Error: " . $e->getMessage();
-//     }
-// }
 
 
 

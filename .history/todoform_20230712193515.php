@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 require_once("create.php");
 
@@ -10,7 +10,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-if (isset($_GET['id'])) {
+if (isset($_GET['id']) && isset($_POST['delete-task'])) {
     $completedTaskId = $_GET['id'];
     try {
         // Mark the task as complete in the database
@@ -27,11 +27,6 @@ if (isset($_GET['id'])) {
 }
 
 
-if (isset($_POST['complete-trash'])) {
-    $delid = $_POST['complete-trash'];
-
-    echo $delid."delid";
-}
 
 
 

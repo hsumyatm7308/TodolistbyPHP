@@ -1,5 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 require_once("database.php");
 
 if (isset($_GET['id'])) {
@@ -25,6 +25,20 @@ if (isset($_GET['id'])) {
 }
 
 
+if (isset($_POST['complete-trash'])) {
+    $delid = $_POST['complete-trash'];
 
+    try {
+        $stmt = $conn->prepare("DELETE FROM completed_tasks WHERE id = :id");
+        $stmt->bindParam(":id", $delid);
+        $stmt->execute();
+
+        // Redirect back to the desired page after deletion
+        header("Location: index.php");
+        exit();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
 ?>
 

@@ -3,7 +3,7 @@ ob_start();
 
 require_once("create.php");
 require_once("todoform.php");
-require_once("complete.php");
+require_once("displaycomplete.php");
 require_once("database.php");
 
 if (isset($_POST['delete-task'])) {
@@ -15,8 +15,6 @@ if (isset($_POST['delete-task'])) {
         $stmt->execute();
 
 
-        $comstmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT todolist_id FROM completed_tasks)");
-        $comstmt->execute();
 
 
         ob_end_clean();
@@ -30,17 +28,14 @@ if (isset($_POST['delete-task'])) {
 }
 
 
-// if (isset($_GET['id'])) {
-//     $comid = $_GET['id'];
+if (isset($_GET['id'])) {
+    $completedTaskId = $_GET['id'];
 
-//     try {
-    
-     
-//     } catch (Exception $e) {
-//         echo "Error: " . $e->getMessage();
-//     }
-// }
+    $delstm = $conn->prepare("DELETE FROM completed_tasks WHERE id = :delid");
+    $delstm->bindParam(":delid", $completedTaskId);
+    $delstm->execute();
 
+}
 
 
 

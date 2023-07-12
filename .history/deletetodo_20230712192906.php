@@ -15,7 +15,7 @@ if (isset($_POST['delete-task'])) {
         $stmt->execute();
 
 
-        $comstmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT todolist_id FROM completed_tasks)");
+        $comstmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
         $comstmt->execute();
 
 
