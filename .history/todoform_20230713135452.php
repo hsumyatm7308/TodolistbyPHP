@@ -1,6 +1,4 @@
 <?php
-error_reporting(0);
-
 // ini_set('display_errors', 1);
 require_once("database.php");
 require_once("create.php");
@@ -11,6 +9,25 @@ try {
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }
+
+if (isset($_GET['id'])) {
+    $completedTaskId = $_GET['id'];
+    try {
+        // Mark the task as complete in the database
+        $completeStmt = $conn->prepare("UPDATE todolist SET complete = 1 WHERE id = :completedTaskId");
+        $completeStmt->bindParam(":completedTaskId", $completedTaskId);
+        $completeStmt->execute();
+
+        // $stmt = $conn->prepare("SELECT id, task FROM todolist WHERE id NOT IN (SELECT id FROM todolist WHERE complete = 1)");
+
+        // $stmt->execute();
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
 
 
 ?>
@@ -30,13 +47,12 @@ try {
     <div name="taskitems" class="w-full h-auto flex justify-center items-center p-1">
         <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center p-3">
             <span class="flex justify-center items-center">
-                 <button name="complete-check" class="complete-check">
+                <button name="complete-check" class="complete-check">
                     <i class="fa-regular fa-circle-check"></i>
-                    </button>
-
-                    <span class="ml-1 complete-sts <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
-                        <?php echo $row['task'] ?>
-                    </span>
+                </button>
+                <span class="ml-1 complete-sts  <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
+                    <?php echo $row['task'] ?>
+                </span>
             </span>
             <div class="flex justify-center items-center">
                 <form action="editpage.php" class="edit-form" method="post">
@@ -66,6 +82,7 @@ try {
 <!-- Include jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Rest of your HTML code -->
 
 <script>
     $(document).ready(function () {

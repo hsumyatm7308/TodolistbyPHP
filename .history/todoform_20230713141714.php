@@ -30,13 +30,14 @@ try {
     <div name="taskitems" class="w-full h-auto flex justify-center items-center p-1">
         <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center p-3">
             <span class="flex justify-center items-center">
-                 <button name="complete-check" class="complete-check">
-                    <i class="fa-regular fa-circle-check"></i>
-                    </button>
-
-                    <span class="ml-1 complete-sts <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
-                        <?php echo $row['task'] ?>
-                    </span>
+                <form action="" method="post">
+                    <a href="index.php?id=<?php echo $row['id']; ?>" name="complete-check">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </a>
+                </form>
+                <span class="ml-1 complete-sts <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
+                    <?php echo $row['task'] ?>
+                </span>
             </span>
             <div class="flex justify-center items-center">
                 <form action="editpage.php" class="edit-form" method="post">

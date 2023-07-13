@@ -30,7 +30,7 @@ try {
     <div name="taskitems" class="w-full h-auto flex justify-center items-center p-1">
         <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center p-3">
             <span class="flex justify-center items-center">
-                 <button name="complete-check" class="complete-check">
+                < <button name="complete-check" class="complete-check">
                     <i class="fa-regular fa-circle-check"></i>
                     </button>
 

@@ -13,6 +13,12 @@ try {
 }
 
 
+if (isset($_POST['complete-task'])) {
+    $taskId = $_POST['complete-task'];
+    // Update the completion status in the database or set a cookie indicating the completion status
+    // Example using cookies:
+    setcookie("task_$taskId", 1, time() + (86400 * 30), "/"); // Cookie expires in 30 days
+}
 ?>
 
 
@@ -30,13 +36,12 @@ try {
     <div name="taskitems" class="w-full h-auto flex justify-center items-center p-1">
         <div class="w-[85%] h-auto bg-stone-200 flex justify-between items-center p-3">
             <span class="flex justify-center items-center">
-                 <button name="complete-check" class="complete-check">
+                <button name="complete-check" class="complete-check">
                     <i class="fa-regular fa-circle-check"></i>
-                    </button>
-
-                    <span class="ml-1 complete-sts <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
-                        <?php echo $row['task'] ?>
-                    </span>
+                </button>
+                <span class="ml-1 complete-sts <?php echo ($row['complete'] == 1) ? 'completed' : ''; ?>">
+                    <?php echo $row['task'] ?>
+                </span>
             </span>
             <div class="flex justify-center items-center">
                 <form action="editpage.php" class="edit-form" method="post">
@@ -66,7 +71,8 @@ try {
 <!-- Include jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<!-- Rest of your HTML code -->
+<!-- 
 <script>
     $(document).ready(function () {
         const completeCheck = document.querySelectorAll('.complete-check');
@@ -78,4 +84,4 @@ try {
         }
     });
 
-</script>
+</script> -->
